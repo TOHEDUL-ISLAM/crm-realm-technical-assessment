@@ -24,6 +24,8 @@ Run the application and check these inputs through the menu:
 | Add leads with scores `50`, `79` | WARM |
 | Add leads with scores `80`, `100` | HOT |
 | Empty or whitespace-only name or email | Immediate error for that field, before prompting for the next field; no lead added |
+| Emails `molla.com`, `@molla.com`, `name@`, `name@@molla.com`, or `name @molla.com` | Immediate email-format error; no lead added |
+| Emails `nirzon@molla.com` or `first.last+work@example.co.uk` | Accepted |
 | Scores `-1`, `101` | Clear range error; no lead added |
 | Scores `abc`, `50.5`, blank, or an integer too large for Java's `int` | Clear integer error; no lead added |
 | Add multiple leads, then view | Every lead's name, email, score, and priority appears |
@@ -31,7 +33,7 @@ Run the application and check these inputs through the menu:
 
 ## Decisions
 
-Names and emails are trimmed, and whitespace-only values count as empty. Email format validation is not required by Part A, so any nonempty email is accepted.
+Names and emails are trimmed, and whitespace-only values count as empty. I added basic email-format validation to catch obvious input mistakes: it requires nonempty parts around a single `@`, a dotted domain with nonempty segments, and no internal whitespace. The same validation is used by the console and the `Lead` constructor. This is a simple format check, not full email-standard validation, and it does not verify whether the address exists.
 
 Priority is calculated from the score in `Lead.calculatePriority()` and is never stored separately.
 

@@ -56,8 +56,10 @@ public class LeadTracker {
         if (email == null) {
             return;
         }
-        if (email.trim().isEmpty()) {
-            System.out.println("Invalid input: Email cannot be empty.");
+        try {
+            Lead.validateEmail(email);
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Invalid input: " + exception.getMessage());
             return;
         }
         String scoreInput = readInput(scanner, "Score (0-100): ");
