@@ -44,49 +44,90 @@ public class LeadTracker {
     }
 
     private static void addLead(Scanner scanner, List<Lead> leads) {
-        String name = readInput(scanner, "Name: ");
+        System.out.println("\nAdd a lead");
+        String name = readName(scanner);
         if (name == null) {
             return;
         }
-        if (name.trim().isEmpty()) {
-            System.out.println("Invalid input: Name cannot be empty.");
-            return;
-        }
-        String email = readInput(scanner, "Email: ");
+        String email = readEmail(scanner);
         if (email == null) {
             return;
         }
-        try {
-            Lead.validateEmail(email);
-        } catch (IllegalArgumentException exception) {
-            System.out.println("Invalid input: " + exception.getMessage());
-            return;
-        }
-        String scoreInput = readInput(scanner, "Score (0-100): ");
-        if (scoreInput == null) {
+        Integer score = readScore(scanner);
+        if (score == null) {
             return;
         }
 
-        try {
-            int score = Integer.parseInt(scoreInput.trim());
-            Lead lead = new Lead(name, email, score);
-            leads.add(lead);
-            System.out.println("Lead added successfully.");
-        } catch (NumberFormatException exception) {
-            System.out.println("Invalid input: Score must be a whole number between 0 and 100.");
-        } catch (IllegalArgumentException exception) {
-            System.out.println("Invalid input: " + exception.getMessage());
+        Lead lead = new Lead(name, email, score);
+        leads.add(lead);
+        System.out.printf("%nLead added: %s | Score: %d | Priority: %s%n",
+                lead.getName(), lead.getScore(), lead.calculatePriority());
+    }
+
+    private static String readName(Scanner scanner) {
+        while (true) {
+            String name = readInput(scanner, "Full name: ");
+            if (name == null) {
+                return null;
+            }
+            if (!name.trim().isEmpty()) {
+                return name.trim();
+            }
+            System.out.println("Please enter a name. It cannot be empty.");
+        }
+    }
+
+    private static String readEmail(Scanner scanner) {
+        while (true) {
+            String email = readInput(scanner, "Email (e.g. name@example.com): ");
+            if (email == null) {
+                return null;
+            }
+            try {
+                Lead.validateEmail(email);
+                return email.trim();
+            } catch (IllegalArgumentException exception) {
+                System.out.println(exception.getMessage() + " Please try again.");
+            }
+        }
+    }
+
+    private static Integer readScore(Scanner scanner) {
+        while (true) {
+            String input = readInput(scanner, "Score (whole number, 0-100): ");
+            if (input == null) {
+                return null;
+            }
+            try {
+                int score = Integer.parseInt(input.trim());
+                if (score >= 0 && score <= 100) {
+                    return score;
+                }
+                System.out.println("Please enter a score between 0 and 100.");
+            } catch (NumberFormatException exception) {
+                System.out.println("Please enter a whole number between 0 and 100 (e.g. 80).");
+            }
         }
     }
 
     private static void viewLeads(List<Lead> leads) {
+        System.out.printf("%nLeads: %d%n", leads.size());
         if (leads.isEmpty()) {
             System.out.println("No leads yet. Choose option 1 to add a lead.");
             return;
         }
 
+        int nameWidth = "Name".length();
+        int emailWidth = "Email".length();
         for (Lead lead : leads) {
-            System.out.printf("Name: %s | Email: %s | Score: %d | Priority: %s%n",
+            nameWidth = Math.max(nameWidth, lead.getName().length());
+            emailWidth = Math.max(emailWidth, lead.getEmail().length());
+        }
+        String rowFormat = "%-4s | %-" + nameWidth + "s | %-" + emailWidth + "s | %-5s | %s%n";
+        System.out.printf(rowFormat, "No.", "Name", "Email", "Score", "Priority");
+        int number = 1;
+        for (Lead lead : leads) {
+            System.out.printf(rowFormat, number++,
                     lead.getName(), lead.getEmail(), lead.getScore(), lead.calculatePriority());
         }
     }
