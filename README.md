@@ -15,6 +15,8 @@ Choose `1` to add a lead, `2` to view all leads, or `3` to exit. Leads are lost 
 
 Invalid input prompts you to retry just that field, preserving previously entered details. After saving, a confirmation shows the lead's name, score, and priority. Viewing leads shows the total count and a numbered table whose columns expand to fit the saved names and emails.
 
+The console uses section dividers, a menu with the current lead count, bordered tables, and text markers: `[OK]` for a saved lead, `[!]` for invalid input, and `[CANCELLED]` for a cancelled addition. Formatting uses plain text so it works without terminal color support or extra libraries.
+
 While adding a lead, enter `/cancel` at the name, email, or score prompt (including retries) to return to the menu without saving the partial lead. The command ignores case and surrounding whitespace. Previously saved leads are kept.
 
 ## Test cases
