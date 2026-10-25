@@ -15,6 +15,8 @@ Choose `1` to add a lead, `2` to view all leads, or `3` to exit. Leads are lost 
 
 Invalid input prompts you to retry just that field, preserving previously entered details. After saving, a confirmation shows the lead's name, score, and priority. Viewing leads shows the total count and a numbered table whose columns expand to fit the saved names and emails.
 
+While adding a lead, enter `/cancel` at the name, email, or score prompt (including retries) to return to the menu without saving the partial lead. The command ignores case and surrounding whitespace. Previously saved leads are kept.
+
 ## Test cases
 
 Run the application and check these inputs through the menu:
@@ -31,6 +33,8 @@ Run the application and check these inputs through the menu:
 | Scores `-1`, `101` | Clear range error; retry score while preserving the name and email |
 | Scores `abc`, `50.5`, blank, or an integer too large for Java's `int` | Clear integer error; retry score |
 | Correct an invalid email and score, then save | Exactly one lead saved; confirmation shows its name, score, and priority |
+| Enter `/cancel` at each Add Lead prompt, including after invalid input | Cancellation message; return to the menu without saving a partial lead |
+| Cancel an addition after previously saving a lead | Previously saved lead remains; no extra lead is added |
 | Add multiple leads, including long names or emails, then view | Correct total count and numbered, aligned columns; full details are shown |
 | Invalid menu option | Clear message; menu remains usable |
 

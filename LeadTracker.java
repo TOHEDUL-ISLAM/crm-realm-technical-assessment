@@ -43,8 +43,18 @@ public class LeadTracker {
         return scanner.hasNextLine() ? scanner.nextLine() : null;
     }
 
+    private static String readLeadInput(Scanner scanner, String prompt) {
+        String input = readInput(scanner, prompt);
+        if (input != null && "/cancel".equalsIgnoreCase(input.trim())) {
+            System.out.println("Add cancelled. No lead was saved.");
+            return null;
+        }
+        return input;
+    }
+
     private static void addLead(Scanner scanner, List<Lead> leads) {
         System.out.println("\nAdd a lead");
+        System.out.println("Type /cancel at any prompt to return to the menu without saving.");
         String name = readName(scanner);
         if (name == null) {
             return;
@@ -66,7 +76,7 @@ public class LeadTracker {
 
     private static String readName(Scanner scanner) {
         while (true) {
-            String name = readInput(scanner, "Full name: ");
+            String name = readLeadInput(scanner, "Full name: ");
             if (name == null) {
                 return null;
             }
@@ -79,7 +89,7 @@ public class LeadTracker {
 
     private static String readEmail(Scanner scanner) {
         while (true) {
-            String email = readInput(scanner, "Email (e.g. name@example.com): ");
+            String email = readLeadInput(scanner, "Email (e.g. name@example.com): ");
             if (email == null) {
                 return null;
             }
@@ -94,7 +104,7 @@ public class LeadTracker {
 
     private static Integer readScore(Scanner scanner) {
         while (true) {
-            String input = readInput(scanner, "Score (whole number, 0-100): ");
+            String input = readLeadInput(scanner, "Score (whole number, 0-100): ");
             if (input == null) {
                 return null;
             }
