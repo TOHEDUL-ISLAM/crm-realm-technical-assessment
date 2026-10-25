@@ -1,0 +1,9 @@
+SELECT id, name, email, score
+FROM leads
+WHERE score >= 80;
+
+SELECT
+    COUNT(CASE WHEN score >= 80 THEN 1 END) AS "HOT",
+    COUNT(CASE WHEN score BETWEEN 50 AND 79 THEN 1 END) AS "WARM",
+    COUNT(CASE WHEN score BETWEEN 0 AND 49 THEN 1 END) AS "COLD"
+FROM leads;
