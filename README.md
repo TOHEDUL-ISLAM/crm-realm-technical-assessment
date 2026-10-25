@@ -23,7 +23,7 @@ Run the application and check these inputs through the menu:
 | Add leads with scores `0`, `49` | COLD |
 | Add leads with scores `50`, `79` | WARM |
 | Add leads with scores `80`, `100` | HOT |
-| Empty or whitespace-only name or email | Clear error; no lead added |
+| Empty or whitespace-only name or email | Immediate error for that field, before prompting for the next field; no lead added |
 | Scores `-1`, `101` | Clear range error; no lead added |
 | Scores `abc`, `50.5`, blank, or an integer too large for Java's `int` | Clear integer error; no lead added |
 | Add multiple leads, then view | Every lead's name, email, score, and priority appears |

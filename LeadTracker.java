@@ -48,8 +48,16 @@ public class LeadTracker {
         if (name == null) {
             return;
         }
+        if (name.trim().isEmpty()) {
+            System.out.println("Invalid input: Name cannot be empty.");
+            return;
+        }
         String email = readInput(scanner, "Email: ");
         if (email == null) {
+            return;
+        }
+        if (email.trim().isEmpty()) {
+            System.out.println("Invalid input: Email cannot be empty.");
             return;
         }
         String scoreInput = readInput(scanner, "Score (0-100): ");
